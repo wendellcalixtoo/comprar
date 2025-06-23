@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   Text,
   TouchableOpacity,
@@ -14,6 +15,7 @@ import { Item } from '@/components/Item';
 import { styles } from './styles';
 import { FilterStatus } from '@/types/FilterStatus';
 
+const ITEMS = Array.from({ length: 100 }).map((_, index) => String(index));
 const FILTER_STATUS: FilterStatus[] = [
   FilterStatus.DONE,
   FilterStatus.PENDING
@@ -47,10 +49,17 @@ export function Home () {
             </TouchableOpacity>
           </View>
 
-          <Item 
-            data={{ status: FilterStatus.DONE, description: 'Café' }}
-            onRemove={() => console.log('Remove item')}
-            onStatus={() => console.log('Change item status')}
+
+          <FlatList 
+            data={ITEMS}
+            keyExtractor={(item) => item}
+            renderItem={({ item }) => (
+              <Item 
+                data={{ status: FilterStatus.DONE, description: `Café ${item}` }}
+                onRemove={() => console.log('Remove item')}
+                onStatus={() => console.log('Change item status')}
+              />
+            )}
           />
         </View>
       </View>
