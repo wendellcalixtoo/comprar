@@ -1,5 +1,7 @@
-import { 
+import {
   Image,
+  Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { Fragment } from 'react';
@@ -7,25 +9,51 @@ import { Fragment } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input'
 import { Filter } from '@/components/Filter'
+import { Item } from '@/components/Item';
+
 import { styles } from './styles';
 import { FilterStatus } from '@/types/FilterStatus';
 
-export function Home() {
+const FILTER_STATUS: FilterStatus[] = [
+  FilterStatus.DONE,
+  FilterStatus.PENDING
+];
+
+export function Home () {
   return (
     <Fragment>
-    <View style={styles.container}>
-      <Image source={require('@/assets/logo.png')} style={styles.logo} />
+      <View style={styles.container}>
+        <Image source={require('@/assets/logo.png')} style={styles.logo} />
 
-      <View style={styles.form}>
-        <Input placeholder='O que você precisa comprar?' />
-        <Button title="Entrar" />
-      </View>
+        <View style={styles.form}>
+          <Input placeholder='O que você precisa comprar?' />
+          <Button title="Entrar" />
+        </View>
 
-      <View style={styles.content}>
-        <Filter status={FilterStatus.DONE} isActive />
-        <Filter status={FilterStatus.PENDING} isActive={false} />
+        <View style={styles.content}>
+          <View style={styles.header}>
+            {
+              FILTER_STATUS.map((status) => (
+                <Filter
+                  key={status}
+                  status={status}
+                  isActive={status === FilterStatus.DONE}
+                />
+              ))
+            }
+
+            <TouchableOpacity style={styles.clearButton}>
+              <Text style={styles.cleartext}>Limpar</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Item 
+            data={{ status: FilterStatus.DONE, description: 'Café' }}
+            onRemove={() => console.log('Remove item')}
+            onStatus={() => console.log('Change item status')}
+          />
+        </View>
       </View>
-    </View>
     </Fragment>
   );
 }
