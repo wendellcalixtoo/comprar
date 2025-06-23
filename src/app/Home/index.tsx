@@ -15,7 +15,29 @@ import { Item } from '@/components/Item';
 import { styles } from './styles';
 import { FilterStatus } from '@/types/FilterStatus';
 
-const ITEMS = Array.from({ length: 100 }).map((_, index) => String(index));
+const ITEMS = [
+  {
+    id: '1',
+    status: FilterStatus.DONE,
+    description: 'Comprar Café'
+  },
+  {
+    id: '2',
+    status: FilterStatus.PENDING,
+    description: 'Comprar Leite'
+  },
+  {
+    id: '3',
+    status: FilterStatus.DONE,
+    description: 'Comprar Pão'
+  },
+  {
+    id: '4',
+    status: FilterStatus.PENDING,
+    description: 'Comprar Açúcar'
+  }
+];
+
 const FILTER_STATUS: FilterStatus[] = [
   FilterStatus.DONE,
   FilterStatus.PENDING
@@ -52,13 +74,21 @@ export function Home () {
 
           <FlatList 
             data={ITEMS}
-            keyExtractor={(item) => item}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Item 
-                data={{ status: FilterStatus.DONE, description: `Café ${item}` }}
+                data={{ status: item.status, description: item.description }}
                 onRemove={() => console.log('Remove item')}
                 onStatus={() => console.log('Change item status')}
               />
+            )}
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            contentContainerStyle={styles.listContent}
+            ListEmptyComponent={() => (
+              <View style={{ flex: 1, alignItems: 'center', paddingTop: 24 }}>
+                <Text style={{ color: '#828282', fontSize: 16 }}>Nenhum item encontrado</Text>
+              </View>
             )}
           />
         </View>

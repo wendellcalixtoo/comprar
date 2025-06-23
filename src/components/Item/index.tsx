@@ -30,8 +30,7 @@ export function Item ({ data, onRemove, onStatus }: Props) {
             <TouchableOpacity activeOpacity={0.8} onPress={onRemove}>
                 <Trash2
                     size={18}
-                    color="#828282"
-                    onPress={data.onRemove}
+                    color="red"
                 />
             </TouchableOpacity>
         </View>
