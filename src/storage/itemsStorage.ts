@@ -41,8 +41,20 @@ async function add(newItem) {
     return updatedItems;
 }
 
+async function remove(idItem) {
+    try {
+        const items = await get()
+        const updatedItems = items.filter((item) => item.id !== idItem);
+
+        await save(updatedItems);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const itemsStorage = {
     get,
     getByStatus,
-    add
+    add,
+    remove
 }

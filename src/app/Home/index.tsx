@@ -33,6 +33,10 @@ export function Home () {
 
     await itemsStorage.add(newItem)
     await itemsByStatus();
+
+    Alert.alert('Novo item', `${newItem.description} adicionado com sucesso!`);
+    setDescription('');
+    setFilter(FilterStatus.PENDING);
   }
 
   async function itemsByStatus() {
@@ -41,6 +45,15 @@ export function Home () {
       setItems(response);
     } catch (error) {
       Alert.alert('Itens', 'Não foi possível carregar os itens');
+    }
+  }
+
+  async function handleRemove(id: string) {
+    try {
+      await itemsStorage.remove(id);
+      await itemsByStatus();
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -87,7 +100,7 @@ export function Home () {
             <Item
               data={{ status: item.status, description: item.description }}
               onRemove={() => console.log('Remove item')}
-              onStatus={() => console.log('Change item status')}
+              onStatus={() => handleRemove(item.id)}
             />
           )}
           showsHorizontalScrollIndicator={false}
