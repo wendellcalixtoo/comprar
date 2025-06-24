@@ -52,9 +52,18 @@ async function remove(idItem) {
     }
 }
 
+async function clear() {
+    try {
+        await AsyncStorage.removeItem(ITEMS_STORAGE_KEY);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const itemsStorage = {
     get,
     getByStatus,
     add,
-    remove
+    remove,
+    clear
 }
