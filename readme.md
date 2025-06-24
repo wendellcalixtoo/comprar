@@ -88,4 +88,4 @@ Este projeto está sob a licença MIT.
 
 ---
 
-Feito com 💙 por
+Feito com 💙 por Wendell Calixto
