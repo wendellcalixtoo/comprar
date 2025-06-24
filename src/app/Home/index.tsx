@@ -1,5 +1,5 @@
 import { Alert, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input'
@@ -8,6 +8,7 @@ import { Item } from '@/components/Item';
 
 import { styles } from './styles';
 import { FilterStatus } from '@/types/FilterStatus';
+import { ItemStorage, itemsStorage } from '@/storage/itemsStorage';
 
 const FILTER_STATUS: FilterStatus[] = [
   FilterStatus.DONE,
@@ -17,7 +18,7 @@ const FILTER_STATUS: FilterStatus[] = [
 export function Home () {
   const [filter, setFilter] = useState(FilterStatus.PENDING);
   const [description, setDescription] = useState('');
-  const [items, setItems] = useState<any>([])
+  const [items, setItems] = useState<ItemStorage[]>([])
 
   function handleItem () {
     if (!description.trim()){
@@ -33,6 +34,19 @@ export function Home () {
     setItems((prevState) => [...prevState, newItem]);
     setDescription('');
   }
+
+  async function getItems() {
+    try {
+      const response = await itemsStorage.getByStatus(filter);
+      setItems(response);
+    } catch (error) {
+      Alert.alert('Itens', 'Não foi possível carregar os itens');
+    }
+  }
+
+  useEffect(() => {
+    getItems()
+  }, []);
 
   return (
     <View style={styles.container}>
