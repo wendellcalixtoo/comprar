@@ -99,8 +99,8 @@ export function Home () {
           renderItem={({ item }) => (
             <Item
               data={{ status: item.status, description: item.description }}
-              onRemove={() => console.log('Remove item')}
-              onStatus={() => handleRemove(item.id)}
+              onRemove={() => handleRemove(item.id)}
+              onStatus={() => console.log('Remove item')}
             />
           )}
           showsHorizontalScrollIndicator={false}
