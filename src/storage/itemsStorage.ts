@@ -60,10 +60,27 @@ async function clear() {
     }
 }
 
+async function toggleStatus(id) {
+    const items = await get();
+    const updatedItems = items.map((item) => { 
+        if (item.id === id) {
+            return {
+                ...item,
+                status: item.status === FilterStatus.PENDING ? FilterStatus.DONE : FilterStatus.PENDING
+            }
+        }
+        return item;
+    });
+
+    await save(updatedItems);
+    return updatedItems;
+}
+
 export const itemsStorage = {
     get,
     getByStatus,
     add,
     remove,
-    clear
+    clear,
+    toggleStatus
 }
